@@ -1,22 +1,22 @@
+package client_server;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
-import java.util.Scanner;
 
-// Client class
 public class Client {
-    private Scanner scn;
     private InetAddress ip;
     private Socket s;
     private DataInputStream dis;
     private DataOutputStream dos;
+    private String request = null;
 
-    public Client() {
+
+    public void startConnection(){
         try {
             //tworzenie nowego połączenia
-            scn = new Scanner(System.in);
             ip = InetAddress.getByName("localhost");
             s = new Socket(ip, 5056);
 
@@ -28,30 +28,25 @@ public class Client {
             String received = dis.readUTF();
             changeServer(received);
 
-            //obsługa zapytań i ich odbieranie
-            while (true) {
-
-                received = dis.readUTF();// tu leci info na serwer
-                System.out.println(received);
-                // If client sends exit,close this connection
-                // and then break from the while loop
 
 
-            }
-
-            // closing resources
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public static void main(String[] args) throws IOException {
-        Client client = new Client();
-    }
 
-    private void makeRequest(String req) throws IOException {
 
+    public String makeRequest() throws IOException {
+
+        if(this.request!=null&&!this.request.equals("")) {
+            dos.writeUTF(this.request);
+            String data = dis.readUTF();
+            request="";
+            return data;
+        }
+        return null;
     }
 
     private void changeServer(String received) throws Exception {
@@ -68,5 +63,18 @@ public class Client {
             dos = new DataOutputStream(s.getOutputStream());
         }
 
+    }
+
+    public String getRequest() {
+        return request;
+    }
+
+    public void setRequest(String request) {
+        try {
+            this.request = request;
+            makeRequest();
+        }catch (IOException e){
+            e.getMessage();
+        }
     }
 }

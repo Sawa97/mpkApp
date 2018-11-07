@@ -1,3 +1,5 @@
+package client_server;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -45,10 +47,10 @@ public class ServerSheduler {
     }
 
     private static String reconnect(){
-        if(ServerOne.SERVERONE_INSTANCE.getSocketsCount()<=ServerTwo.SERVERTWO_INSTANCE.getSocketsCount()){
+        if(ServerOne.SERVERONE_INSTANCE.getSocketsCount()<= ServerTwo.SERVERTWO_INSTANCE.getSocketsCount()){
 
             return "reconnect6001";
         }
-       return "reconnect6002";
+        return "reconnect6002";
     }
 }
