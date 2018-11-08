@@ -1,0 +1,28 @@
+.pane{
+    -fx-background-color: #2B2B2B;
+}
+.line{
+    -fx-stroke:  white
+}
+.label{
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-font-size: 21;
+    -fx-alignment: center;
+    -fx-text-alignment: center;
+
+}
+.button{
+
+    -fx-background-color: #2B2B2B;
+    -fx-cursor: hand;
+    -fx-text-fill: white;
+    -fx-font-size: 19;
+    -fx-alignment: center;
+}
+.errorLabel{
+    -fx-text-fill: red;
+    -fx-font-size: 13;
+    -fx-alignment: center;
+    -fx-text-alignment: center;
+}

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="pane" prefHeight="400.0" prefWidth="364.0" styleClass="pane" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MainPanelController">
+   <children>
+      <Label alignment="CENTER" layoutX="135.0" layoutY="21.0" prefHeight="21.0" prefWidth="118.0" text="Kraków" textAlignment="CENTER">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font></Label>
+      <ImageView fitHeight="34.0" fitWidth="56.0" layoutX="46.0" layoutY="22.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/bus.png" />
+         </image>
+      </ImageView>
+      <Line endX="260.0" layoutX="101.0" layoutY="79.0" startX="-100.0" strokeMiterLimit="18.0" styleClass="line" />
+      <JFXButton layoutX="63.0" layoutY="159.0" mnemonicParsing="false" text="Rozkład przystanku" />
+      <JFXButton layoutX="63.0" layoutY="99.0" mnemonicParsing="false" text="Wyszukiwanie Połączeń" />
+      <ImageView fitHeight="34.0" fitWidth="34.0" layoutX="15.0" layoutY="103.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/Search.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="42.0" fitWidth="40.0" layoutX="12.0" layoutY="160.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/Schedule.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="40.0" fitWidth="40.0" layoutX="12.0" layoutY="227.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/Transport.png" />
+         </image>
+      </ImageView>
+      <JFXButton layoutX="69.0" layoutY="226.0" mnemonicParsing="false" text="Rozkład Linii" />
+   </children>
+</AnchorPane>
