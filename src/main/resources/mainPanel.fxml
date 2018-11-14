@@ -8,7 +8,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="pane" prefHeight="400.0" prefWidth="364.0" styleClass="pane" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MainPanelController">
+<AnchorPane id="pane" prefHeight="400.0" prefWidth="364.0" styleClass="pane" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.MainPanelController">
    <children>
       <Label alignment="CENTER" layoutX="135.0" layoutY="21.0" prefHeight="21.0" prefWidth="118.0" text="Kraków" textAlignment="CENTER">
          <font>
@@ -20,8 +20,8 @@
          </image>
       </ImageView>
       <Line endX="260.0" layoutX="101.0" layoutY="79.0" startX="-100.0" strokeMiterLimit="18.0" styleClass="line" />
-      <JFXButton layoutX="63.0" layoutY="159.0" mnemonicParsing="false" text="Rozkład przystanku" />
-      <JFXButton layoutX="63.0" layoutY="99.0" mnemonicParsing="false" text="Wyszukiwanie Połączeń" />
+      <JFXButton fx:id="schedule" layoutX="63.0" layoutY="159.0" mnemonicParsing="false" onAction="#scheduleHandler" text="Rozkład przystanku" />
+      <JFXButton fx:id="search" layoutX="63.0" layoutY="99.0" mnemonicParsing="false" onAction="#searchHandler" text="Wyszukiwanie Połączeń" />
       <ImageView fitHeight="34.0" fitWidth="34.0" layoutX="15.0" layoutY="103.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@images/Search.png" />
@@ -37,6 +37,6 @@
             <Image url="@images/Transport.png" />
          </image>
       </ImageView>
-      <JFXButton layoutX="69.0" layoutY="226.0" mnemonicParsing="false" text="Rozkład Linii" />
+      <JFXButton fx:id="line" layoutX="69.0" layoutY="226.0" mnemonicParsing="false" onAction="#lineHandler" text="Rozkład Linii" />
    </children>
 </AnchorPane>

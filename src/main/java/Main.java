@@ -1,3 +1,4 @@
+import client_server.Client;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -24,7 +25,8 @@ public class Main extends Application {
 
 
 
-        //Client client= new Client();
-        //client.startConnection();   // odkomentować potem
+        Client client= new Client();
+        client.startConnection();   // odkomentować potem
+
     }
 }

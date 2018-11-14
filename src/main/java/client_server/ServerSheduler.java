@@ -8,6 +8,8 @@ import java.net.Socket;
 
 public class ServerSheduler {
 
+    public static ServerSheduler SERVERSHEDULER = new ServerSheduler();
+
 
     public static void main(String[] args) throws IOException
     {
@@ -46,7 +48,7 @@ public class ServerSheduler {
         }
     }
 
-    private static String reconnect(){
+    public static String reconnect(){
         if(ServerOne.SERVERONE_INSTANCE.getSocketsCount()<= ServerTwo.SERVERTWO_INSTANCE.getSocketsCount()){
 
             return "reconnect6001";

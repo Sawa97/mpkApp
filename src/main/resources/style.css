@@ -26,3 +26,15 @@
     -fx-alignment: center;
     -fx-text-alignment: center;
 }
+
+.searchText{
+    -fx-text-fill: white;
+    -fx-cursor: hand;
+}
+
+.informationLabel{
+    -fx-text-fill: white;
+    -fx-font-size: 15;
+    -fx-alignment: center;
+    -fx-text-alignment: center;
+}

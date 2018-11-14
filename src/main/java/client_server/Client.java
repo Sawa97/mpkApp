@@ -1,18 +1,32 @@
 package client_server;
 
+import client_server.data.ClientData;
+import data.Line;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.net.InetAddress;
 import java.net.Socket;
+import java.util.ArrayList;
 
-public class Client {
+public class Client extends ClientData {
     private InetAddress ip;
     private Socket s;
+    public static Client CLIENT_INSTANCE = new Client();
     private DataInputStream dis;
     private DataOutputStream dos;
     private String request = null;
+    private String name;
+    private ObjectInputStream inFromServer;
+    public String getName() {
+        return name;
+    }
 
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public void startConnection(){
         try {
@@ -38,18 +52,27 @@ public class Client {
 
 
 
-    public String makeRequest() throws IOException {
+    public void makeRequest() throws Exception {
 
         if(this.request!=null&&!this.request.equals("")) {
             dos.writeUTF(this.request);
-            String data = dis.readUTF();
+            switch(request){
+                case "GETLINES":{
+                    Object object =  inFromServer.readObject();
+                    CLIENT_INSTANCE.setAllLines((ArrayList<Line>) object);
+                    break;
+                }
+                default:{
+                    break;
+                }
+            }
+
+            System.out.println(CLIENT_INSTANCE.getAllLines().get(0).getLineNumber());
             request="";
-            return data;
         }
-        return null;
     }
 
-    private void changeServer(String received) throws Exception {
+    public boolean changeServer(String received) throws Exception {
 
         if (received.contains("reconnect")) {
             s.close();
@@ -61,7 +84,10 @@ public class Client {
             s = new Socket(ip, port);
             dis = new DataInputStream(s.getInputStream());
             dos = new DataOutputStream(s.getOutputStream());
+            inFromServer = new ObjectInputStream(s.getInputStream());
+            return true;
         }
+        return false;
 
     }
 
@@ -69,7 +95,7 @@ public class Client {
         return request;
     }
 
-    public void setRequest(String request) {
+    public void setRequest(String request) throws Exception {
         try {
             this.request = request;
             makeRequest();
