@@ -19,14 +19,15 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("mainPanel.fxml"));
         primaryStage.setTitle("Mpk Application");
+        primaryStage.setResizable(false);
         primaryStage.initStyle(StageStyle.DECORATED);
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
 
 
 
-        Client client= new Client();
-        client.startConnection();   // odkomentować potem
+        Client.CLIENT_INSTANCE.startConnection();
+
 
     }
 }

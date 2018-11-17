@@ -64,7 +64,7 @@ class ServerHandler extends Thread
 
     private void requestHandler() throws IOException{
 
-        this.req = dis.readUTF();
+       this.req = dis.readUTF();
         requestManage();
         req=null;
     }

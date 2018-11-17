@@ -12,11 +12,13 @@ public class WalkTime implements Serializable {
    @OneToOne
     private BusStop busStop;
     private int time;
+    private int distance;
 
-    public WalkTime(int id, BusStop busStop, int time) {
+    public WalkTime(int id, BusStop busStop, int time, int distance) {
         this.id = id;
         this.busStop = busStop;
         this.time = time;
+        this.distance = distance;
     }
 
     public WalkTime() {
@@ -44,5 +46,13 @@ public class WalkTime implements Serializable {
 
     public void setTime(int time) {
         this.time = time;
+    }
+
+    public int getDistance() {
+        return distance;
+    }
+
+    public void setDistance(int distance) {
+        this.distance = distance;
     }
 }

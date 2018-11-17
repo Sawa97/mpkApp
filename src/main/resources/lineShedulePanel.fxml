@@ -1,16 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Line?>
 
-
-<AnchorPane prefHeight="400.0" prefWidth="398.0" styleClass="pane" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.LineShedulePanelController">
+<AnchorPane prefHeight="402.0" prefWidth="314.0" styleClass="pane" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.LineShedulePanelController">
    <children>
-      <ImageView fitHeight="34.0" fitWidth="56.0" layoutX="56.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="40.0" fitWidth="34.0" layoutX="17.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@images/bus.png" />
          </image>
       </ImageView>
+      <TextField fx:id="searchLine" layoutX="65.0" layoutY="27.0" prefHeight="31.0" prefWidth="303.0" promptText="Wyszukaj Linie" />
+      <Line endX="260.0" layoutX="111.0" layoutY="80.0" startX="-115.0" strokeMiterLimit="18.0" styleClass="line" />
+      <AnchorPane fx:id="centerPane" layoutY="81.0" prefHeight="359.0" prefWidth="372.0" />
    </children>
 </AnchorPane>

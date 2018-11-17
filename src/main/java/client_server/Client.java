@@ -18,15 +18,7 @@ public class Client extends ClientData {
     private DataInputStream dis;
     private DataOutputStream dos;
     private String request = null;
-    private String name;
     private ObjectInputStream inFromServer;
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
     public void startConnection(){
         try {
@@ -60,6 +52,7 @@ public class Client extends ClientData {
                 case "GETLINES":{
                     Object object =  inFromServer.readObject();
                     CLIENT_INSTANCE.setAllLines((ArrayList<Line>) object);
+                    System.out.println(CLIENT_INSTANCE.getAllLines().get(0).getLineNumber());
                     break;
                 }
                 default:{
@@ -67,7 +60,7 @@ public class Client extends ClientData {
                 }
             }
 
-            System.out.println(CLIENT_INSTANCE.getAllLines().get(0).getLineNumber());
+
             request="";
         }
     }
@@ -102,5 +95,13 @@ public class Client extends ClientData {
         }catch (IOException e){
             e.getMessage();
         }
+    }
+
+    public Socket getS() {
+        return s;
+    }
+
+    public void setS(Socket s) {
+        this.s = s;
     }
 }

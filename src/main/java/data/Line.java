@@ -13,12 +13,14 @@ public class Line implements Serializable {
     private List<SingleInformation> plan;
     private String startStation;
     private String endStation;
+    private int generalNumber;
 
     public Line(String lineNumber, String startStation, String endStation) {
         this.lineNumber = lineNumber;
         this.startStation = startStation;
         this.endStation = endStation;
         this.plan = new ArrayList<>();
+        this.generalNumber = Integer.parseInt(lineNumber.substring(0,lineNumber.length()-1));
     }
 
     public Line() {
@@ -54,5 +56,13 @@ public class Line implements Serializable {
 
     public void setPlan(List<SingleInformation> plan) {
         this.plan = plan;
+    }
+
+    public int getGeneralNumber() {
+        return generalNumber;
+    }
+
+    public void setGeneralNumber(int generalNumber) {
+        this.generalNumber = generalNumber;
     }
 }
