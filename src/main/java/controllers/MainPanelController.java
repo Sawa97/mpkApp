@@ -5,7 +5,6 @@ import internet.InternetConnection;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.text.Text;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
 
@@ -22,9 +21,6 @@ public class MainPanelController implements InternetConnection, ControllersHandl
     @FXML
     private JFXButton search;
 
-    @FXML
-    private Text loadLabel;
-
 
     public void initialize() {
 
@@ -39,7 +35,7 @@ public class MainPanelController implements InternetConnection, ControllersHandl
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                loadLabel.getScene().getWindow().setOnCloseRequest(new EventHandler<WindowEvent>() {
+                search.getScene().getWindow().setOnCloseRequest(new EventHandler<WindowEvent>() {
                     @Override
                     public void handle(WindowEvent event) {
                         Platform.exit();
@@ -51,8 +47,11 @@ public class MainPanelController implements InternetConnection, ControllersHandl
 
     }
 
-    public void scheduleHandler() {
+    public void scheduleHandler() throws Exception {
 
+
+        loadBusData();
+        this.newStage("busStopListPanel.fxml", false, "Rozkład Przystanków", StageStyle.DECORATED);
 
     }
 
@@ -62,17 +61,21 @@ public class MainPanelController implements InternetConnection, ControllersHandl
     }
 
     public void lineHandler() throws Exception {
-        loadLineData();
+   loadLineData();
         this.newStage("lineShedulePanel.fxml", false, "Rozkład Linii", StageStyle.DECORATED);
-        loadLabel.setText("");
 
 
     }
 
     private void loadLineData() throws Exception {
-        loadLabel.setText("Loading...");
         if (CLIENT_INSTANCE.getAllLines().size() == 0) {
             CLIENT_INSTANCE.setRequest("GETLINES");
+        }
+    }
+
+    private void loadBusData() throws Exception{
+        if(CLIENT_INSTANCE.getBusStops().size() == 0){
+            CLIENT_INSTANCE.setRequest("GETBUSSTOPS");
         }
     }
 

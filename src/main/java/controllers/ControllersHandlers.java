@@ -37,4 +37,5 @@ public interface ControllersHandlers {
         return 92+(Client.CLIENT_INSTANCE.getSearchedLine().getPlan().size()*40)+37;
         //92 odległóść od góry, 40 przestrzeń zajmowana przez jeden element, 37 odległość od dołu
     }
+
 }

@@ -1,5 +1,6 @@
 package client_server.data;
 
+import data.BusStop;
 import data.Line;
 
 import java.util.ArrayList;
@@ -9,9 +10,12 @@ public class ClientData {
 
     private List<Line> allLines;
     private Line searchedLine;
+    private List<BusStop> busStops;
+    private BusStop searchedBusStop;
 
     public ClientData() {
         allLines = new ArrayList<>();
+        busStops = new ArrayList<>();
     }
 
     public List<Line> getAllLines() {
@@ -32,6 +36,16 @@ public class ClientData {
         return resultList;
     }
 
+    public List<BusStop> busStops(String condition){
+        List<BusStop> resultList = new ArrayList<>();
+        for(BusStop busStop: busStops){
+            if(busStop.getBusStopName().toLowerCase().startsWith(condition.toLowerCase())){
+                resultList.add(busStop);
+            }
+        }
+        return resultList;
+    }
+
     public Line getSearchedLine() {
         return searchedLine;
     }
@@ -42,5 +56,26 @@ public class ClientData {
                 this.searchedLine = line;
             }
         }
+    }
+
+
+    public List<BusStop> getBusStops() {
+        return busStops;
+    }
+
+    public BusStop getSearchedBusStop() {
+        return searchedBusStop;
+    }
+
+    public void setSearchedBusStop(String busStopName) {
+        for(BusStop busStop: busStops){
+            if(busStop.getBusStopName().equals(busStopName)){
+                this.searchedBusStop = busStop;
+            }
+        }
+    }
+
+    public void setBusStops(List<BusStop> busStops) {
+        this.busStops = busStops;
     }
 }

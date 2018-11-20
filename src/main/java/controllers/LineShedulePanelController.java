@@ -6,6 +6,7 @@ import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -23,6 +24,9 @@ public class LineShedulePanelController implements ControllersHandlers{
     @FXML
     AnchorPane centerPane;
 
+    @FXML
+    Label loadingLabel;
+
     private double height;
     private double width;
 
@@ -31,6 +35,8 @@ public class LineShedulePanelController implements ControllersHandlers{
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
+
+
                 createLineButtons(Client.CLIENT_INSTANCE.getAllLines());
 
                 centerPane.getScene().addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {

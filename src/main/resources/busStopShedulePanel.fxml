@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="493.0" prefWidth="390.0" styleClass="pane" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.BusStopShedulePanelController">
+   <children>
+      <ImageView fitHeight="46.0" fitWidth="34.0" layoutX="38.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/bus.png" />
+         </image>
+      </ImageView>
+      <Label fx:id="busLabel" layoutX="104.0" layoutY="18.0" prefHeight="34.0" prefWidth="182.0" />
+      <ScrollPane fx:id="scrollPane" layoutX="6.0" layoutY="66.0" prefHeight="411.0" prefWidth="378.0" />
+   </children>
+</AnchorPane>

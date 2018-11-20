@@ -1,12 +1,10 @@
 package client_server;
 
 import client_server.data.ClientData;
+import data.BusStop;
 import data.Line;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
+import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -19,6 +17,7 @@ public class Client extends ClientData {
     private DataOutputStream dos;
     private String request = null;
     private ObjectInputStream inFromServer;
+    private ObjectOutputStream outToServer;
 
     public void startConnection(){
         try {
@@ -52,7 +51,13 @@ public class Client extends ClientData {
                 case "GETLINES":{
                     Object object =  inFromServer.readObject();
                     CLIENT_INSTANCE.setAllLines((ArrayList<Line>) object);
-                    System.out.println(CLIENT_INSTANCE.getAllLines().get(0).getLineNumber());
+                    break;
+                }
+
+                case "GETBUSSTOPS":{
+                    Object object = inFromServer.readObject();
+                    CLIENT_INSTANCE.setBusStops((ArrayList<BusStop>) object);
+                    //outToServer.writeObject(CLIENT_INSTANCE.getSearchedBusStop()); //wysłanie wybranego przystanku
                     break;
                 }
                 default:{

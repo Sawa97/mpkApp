@@ -1,10 +1,12 @@
 package data;
 
+import org.hibernate.annotations.Type;
+import org.joda.time.DateTime;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import java.io.Serializable;
-import java.util.Date;
 
 @Entity
 public class SingleInformation implements Serializable {
@@ -12,9 +14,10 @@ public class SingleInformation implements Serializable {
     private int inforamtionId;
     @OneToOne
     private BusStop busStop;
-    private Date date;
+    @Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+    private DateTime date;
 
-    public SingleInformation(int inforamtionId, BusStop busStop, Date date) {
+    public SingleInformation(int inforamtionId, BusStop busStop, DateTime date) {
         this.inforamtionId = inforamtionId;
         this.busStop = busStop;
         this.date = date;
@@ -39,11 +42,11 @@ public class SingleInformation implements Serializable {
         this.busStop = busStop;
     }
 
-    public Date getDate() {
+    public DateTime getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(DateTime date) {
         this.date = date;
     }
 }

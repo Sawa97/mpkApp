@@ -1,5 +1,6 @@
 package client_server;
 
+import data.BusStop;
 import data.Line;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -8,7 +9,7 @@ import org.hibernate.cfg.Configuration;
 import javax.persistence.criteria.CriteriaQuery;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
-import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.List;
@@ -23,6 +24,8 @@ class ServerHandler extends Thread
     private static SessionFactory factory;
     private static Session session;
     private ObjectOutputStream outToClient;
+    private ObjectInputStream inFromClient;
+    private BusStop searchedBusStop;
 
 
 
@@ -34,6 +37,7 @@ class ServerHandler extends Thread
         this.dos = dos;
         this.serverName = serverName;
         this.outToClient = new ObjectOutputStream(s.getOutputStream());
+        this.inFromClient = new ObjectInputStream(s.getInputStream());
     }
 
     @Override
@@ -49,7 +53,7 @@ class ServerHandler extends Thread
 
 
 
-            } catch (IOException e) {
+            } catch (Exception e) {
                 if(serverName.equals("SERVER_ONE")){
                     ServerOne.SERVERONE_INSTANCE.getSockets().remove(s.getPort());
                 }
@@ -62,25 +66,30 @@ class ServerHandler extends Thread
 
     }
 
-    private void requestHandler() throws IOException{
+    private void requestHandler() throws Exception{
 
        this.req = dis.readUTF();
         requestManage();
         req=null;
     }
 
-    private String requestManage() throws IOException{
+    private String requestManage() throws Exception{
         switch (req){
-            case "EXIT": {
-
-                return "";
-            }
             case "GETLINES":{
                 CriteriaQuery<Line> criteriaQuery = session.getCriteriaBuilder().createQuery(Line.class);
                 criteriaQuery.from(Line.class);
                 List<Line> list;
                 list = session.createQuery(criteriaQuery).getResultList();
                 outToClient.writeObject(list);
+            }
+
+            case "GETBUSSTOPS":{
+                CriteriaQuery<BusStop> criteriaQuery = session.getCriteriaBuilder().createQuery(BusStop.class);
+                criteriaQuery.from(BusStop.class);
+                List<BusStop> list;
+                list = session.createQuery(criteriaQuery).getResultList();
+                outToClient.writeObject(list);
+
 
 
             }
@@ -93,12 +102,5 @@ class ServerHandler extends Thread
 
 
 
-//    private String getLIne(){
-//        session.beginTransaction();
-//        session.createQuery("")
-//
-//
-//
-//
-//    }
+
 }

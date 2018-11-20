@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="494.0" prefWidth="387.0" styleClass="pane" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.BusStopListPanelController">
+   <children>
+      <ImageView fitHeight="34.0" fitWidth="56.0" layoutX="22.0" layoutY="22.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/bus.png" />
+         </image>
+      </ImageView>
+      <TextField fx:id="searchLine" layoutX="75.0" layoutY="24.0" prefHeight="31.0" prefWidth="303.0" promptText="Wyszukaj przystanek" />
+      <ScrollPane fx:id="scrollPane" layoutX="12.0" layoutY="68.0" prefHeight="411.0" prefWidth="378.0" />
+   </children>
+</AnchorPane>

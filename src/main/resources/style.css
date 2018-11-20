@@ -1,6 +1,15 @@
 .pane{
     -fx-background-color: #2B2B2B;
 }
+.scrollPane{
+    -fx-background-color: #4B4C44;
+}
+.listTopPane{
+    -fx-background-color: #EA0018;
+}
+.listCenterPane{
+    -fx-background-color:#202020 ;
+}
 .line{
     -fx-stroke:  white
 }
@@ -12,6 +21,25 @@
     -fx-text-alignment: center;
 
 }
+.destinationLabel{
+    -fx-text-fill: white;
+    -fx-font-size: 18;
+    -fx-alignment: center;
+    -fx-text-alignment: center;
+}
+.busStopLabel{
+    -fx-text-fill: white;
+    -fx-font-size: 15;
+    -fx-alignment: center;
+    -fx-text-alignment: center;
+}
+.timeToLeaveLabel{
+    -fx-text-fill: gray;
+    -fx-font-size: 13;
+    -fx-alignment: center;
+    -fx-text-alignment: center;
+}
+
 .button{
 
     -fx-background-color: #2B2B2B;
