@@ -10,7 +10,7 @@ import javafx.stage.StageStyle;
 import java.io.IOException;
 
 public interface ControllersHandlers {
-    default void newStage(String resourceName, boolean onTop, String title,StageStyle stageStyle ){
+    default Stage newStage(String resourceName, boolean onTop, String title,StageStyle stageStyle ){
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getClassLoader().getResource(resourceName));
         try {
             Parent root =  fxmlLoader.load();
@@ -27,10 +27,12 @@ public interface ControllersHandlers {
             }
 
             stage.show();
+            return stage;
 
         } catch (IOException e) {
             e.getMessage();
         }
+        return null;
     }
 
     default double calculateSize(){

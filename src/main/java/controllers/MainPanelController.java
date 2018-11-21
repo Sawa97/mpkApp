@@ -1,5 +1,6 @@
 package controllers;
 
+import client_server.data.InformationFromPanel;
 import com.jfoenix.controls.JFXButton;
 import internet.InternetConnection;
 import javafx.application.Platform;
@@ -50,6 +51,7 @@ public class MainPanelController implements InternetConnection, ControllersHandl
     public void scheduleHandler() throws Exception {
 
 
+        CLIENT_INSTANCE.setInformationFromPanel(InformationFromPanel.shedule);
         loadBusData();
         this.newStage("busStopListPanel.fxml", false, "Rozkład Przystanków", StageStyle.DECORATED);
 
@@ -61,7 +63,7 @@ public class MainPanelController implements InternetConnection, ControllersHandl
     }
 
     public void lineHandler() throws Exception {
-   loadLineData();
+    loadLineData();
         this.newStage("lineShedulePanel.fxml", false, "Rozkład Linii", StageStyle.DECORATED);
 
 

@@ -20,8 +20,9 @@ public class ClientData {
     private DateTime searchingTime;
     private Boolean actualTime = true;
     private WayOfTravel wayOfTravel = WayOfTravel.fastest;
-    private String startStation;
-    private String endStation;
+    private BusStop startStation;
+    private BusStop endStation;
+    private InformationFromPanel informationFromPanel = InformationFromPanel.shedule;
 
 
     public ClientData() {
@@ -131,19 +132,43 @@ public class ClientData {
         this.wayOfTravel = wayOfTravel;
     }
 
-    public String getStartStation() {
+    public BusStop getStartStation() {
         return startStation;
     }
 
-    public void setStartStation(String startStation) {
-        this.startStation = startStation;
+    public void setStartStation(String busStopName) {
+        for(BusStop busStop: busStops){
+            if(busStop.getBusStopName().equals(busStopName)){
+                this.startStation = busStop;
+            }
+        }
     }
 
-    public String getEndStation() {
+    public BusStop getEndStation() {
         return endStation;
     }
 
-    public void setEndStation(String endStation) {
+    public void setEndStation(String busStopName) {
+        for(BusStop busStop: busStops){
+            if(busStop.getBusStopName().equals(busStopName)){
+                this.endStation = busStop;
+            }
+        }
+    }
+
+    public InformationFromPanel getInformationFromPanel() {
+        return informationFromPanel;
+    }
+
+    public void setInformationFromPanel(InformationFromPanel informationFromPanel) {
+        this.informationFromPanel = informationFromPanel;
+    }
+
+    public void setStartStation(BusStop startStation) {
+        this.startStation = startStation;
+    }
+
+    public void setEndStation(BusStop endStation) {
         this.endStation = endStation;
     }
 }

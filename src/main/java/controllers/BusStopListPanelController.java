@@ -1,6 +1,7 @@
 package controllers;
 
 import client_server.Client;
+import client_server.data.InformationFromPanel;
 import data.BusStop;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
@@ -12,6 +13,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Border;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.util.List;
@@ -36,12 +38,28 @@ public class BusStopListPanelController implements ControllersHandlers{
                     @Override
                     public void handle(MouseEvent event) {
                         try {
+                            Stage stage = (Stage)scrollPane.getScene().getWindow();
                             if (event.getTarget() instanceof Text) {
-                                Text t = (Text) event.getTarget();
-                                Client.CLIENT_INSTANCE.setSearchedBusStop(t.getText());
-                                Client.CLIENT_INSTANCE.setRequest("GETSHEDULE");
-                                newStage("busStopShedulePanel.fxml", false, "Rozkład Przystanku", StageStyle.DECORATED);
+                            if(Client.CLIENT_INSTANCE.getInformationFromPanel().equals(InformationFromPanel.shedule)) {
+                                    Text t = (Text) event.getTarget();
+                                    Client.CLIENT_INSTANCE.setSearchedBusStop(t.getText());
+                                    Client.CLIENT_INSTANCE.setRequest("GETSHEDULE");
+                                    newStage("busStopShedulePanel.fxml", false, "Rozkład Przystanku", StageStyle.DECORATED);
+                                }
                             }
+                            if(Client.CLIENT_INSTANCE.getInformationFromPanel().equals(InformationFromPanel.start)){
+                                Text t = (Text) event.getTarget();
+                                Client.CLIENT_INSTANCE.setStartStation(t.getText());
+                                stage.close();
+                            }
+
+                            if(Client.CLIENT_INSTANCE.getInformationFromPanel().equals(InformationFromPanel.stop)){
+                                Text t = (Text) event.getTarget();
+                                Client.CLIENT_INSTANCE.setEndStation(t.getText());
+                                stage.close();
+                            }
+
+
                         }catch (Exception e){
                             e.printStackTrace();
                         }

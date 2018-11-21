@@ -1,23 +1,23 @@
 package controllers;
 
 import client_server.Client;
+import client_server.data.InformationFromPanel;
 import client_server.data.WayOfTravel;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
+import data.BusStop;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.image.ImageView;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
 
-public class SearchPanelController implements ControllersHandlers {
-    @FXML
-    private JFXTextField searchStart;
+import static client_server.Client.CLIENT_INSTANCE;
 
-    @FXML
-    private JFXTextField searchStop;
+public class SearchPanelController implements ControllersHandlers {
 
     @FXML
     private JFXButton changeButton;
@@ -27,6 +27,12 @@ public class SearchPanelController implements ControllersHandlers {
 
     @FXML
     ImageView timeImage;
+
+    @FXML
+    JFXTextField searchStart;
+
+    @FXML
+    JFXTextField searchStop;
 
     private int countOfChange;
     private static final int MAX_CHANGE_COUNT = 3;
@@ -73,11 +79,42 @@ public class SearchPanelController implements ControllersHandlers {
 
 
     public void replaceHandler(){
-        String temp = searchStart.getText();
-        searchStart.setText(searchStop.getText());
-        searchStop.setText(temp);
+            BusStop temp = Client.CLIENT_INSTANCE.getStartStation();
+            Client.CLIENT_INSTANCE.setStartStation(Client.CLIENT_INSTANCE.getEndStation());
+            Client.CLIENT_INSTANCE.setEndStation(temp);
+            String tempName = searchStart.getText();
+            searchStart.setText(searchStop.getText());
+            searchStop.setText(tempName);
 
     }
+
+    public void searchStartHandler() throws Exception{
+        if(CLIENT_INSTANCE.getBusStops().size() == 0){
+            CLIENT_INSTANCE.setRequest("GETBUSSTOPS");
+        }
+        Client.CLIENT_INSTANCE.setInformationFromPanel(InformationFromPanel.start);
+        Stage stage = this.newStage("busStopListPanel.fxml", false, "Przystanek Początkowy", StageStyle.DECORATED);
+        stage.setOnHidden(event -> {
+            searchStart.setText(Client.CLIENT_INSTANCE.getStartStation().getBusStopName());
+        });
+
+
+    }
+
+    public void searchStopHandler() throws Exception{
+        if(CLIENT_INSTANCE.getBusStops().size() == 0){
+            CLIENT_INSTANCE.setRequest("GETBUSSTOPS");
+        }
+        Client.CLIENT_INSTANCE.setInformationFromPanel(InformationFromPanel.stop);
+
+        Stage stage = this.newStage("busStopListPanel.fxml", false, "Przystanek Początkowy", StageStyle.DECORATED);
+        stage.setOnHidden(event -> {
+            searchStop.setText(Client.CLIENT_INSTANCE.getStartStation().getBusStopName());
+        });
+
+    }
+
+
 
     public void optionHandler(){
         this.newStage("optionPanel.fxml", true, "", StageStyle.UNDECORATED);
@@ -89,8 +126,9 @@ public class SearchPanelController implements ControllersHandlers {
     }
 
     public void startSearchHandler(){
-        Client.CLIENT_INSTANCE.setEndStation(searchStop.getText());
-        Client.CLIENT_INSTANCE.setStartStation(searchStart.getText());
+        System.out.println(Client.CLIENT_INSTANCE.getEndStation().getBusStopName());
+        System.out.println(Client.CLIENT_INSTANCE.getStartStation().getBusStopName());
+
     }
 
 }
