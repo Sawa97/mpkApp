@@ -1,6 +1,7 @@
 package client_server;
 
 import client_server.data.ClientData;
+import controllers.data.BusStopShedule;
 import data.BusStop;
 import data.Line;
 
@@ -44,20 +45,27 @@ public class Client extends ClientData {
 
 
     public void makeRequest() throws Exception {
+        Object object;
 
         if(this.request!=null&&!this.request.equals("")) {
             dos.writeUTF(this.request);
             switch(request){
                 case "GETLINES":{
-                    Object object =  inFromServer.readObject();
+                    object =  inFromServer.readObject();
                     CLIENT_INSTANCE.setAllLines((ArrayList<Line>) object);
                     break;
                 }
 
                 case "GETBUSSTOPS":{
-                    Object object = inFromServer.readObject();
+                    object = inFromServer.readObject();
                     CLIENT_INSTANCE.setBusStops((ArrayList<BusStop>) object);
-                    //outToServer.writeObject(CLIENT_INSTANCE.getSearchedBusStop()); //wysłanie wybranego przystanku
+                    break;
+                }
+
+                case "GETSHEDULE":{
+                    outToServer.writeObject(CLIENT_INSTANCE.getSearchedBusStop()); //wysłanie wybranego przystanku
+                    object = inFromServer.readObject();
+                    CLIENT_INSTANCE.setListBusStopShedule((ArrayList<BusStopShedule>) object);
                     break;
                 }
                 default:{
@@ -83,6 +91,7 @@ public class Client extends ClientData {
             dis = new DataInputStream(s.getInputStream());
             dos = new DataOutputStream(s.getOutputStream());
             inFromServer = new ObjectInputStream(s.getInputStream());
+            outToServer = new ObjectOutputStream(s.getOutputStream());
             return true;
         }
         return false;

@@ -3,7 +3,9 @@ package controllers.data;
 import data.Line;
 import org.joda.time.DateTime;
 
-public class BusStopShedule  {
+import java.io.Serializable;
+
+public class BusStopShedule implements Serializable {
     private String lastStation;
     private int timeToLeave;
     private Line line;
@@ -15,6 +17,9 @@ public class BusStopShedule  {
         this.timeToLeave = timeToLeave;
         this.line = line;
         this.time = time;
+    }
+
+    public BusStopShedule() {
     }
 
     public String getLastStation() {

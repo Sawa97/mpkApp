@@ -1,5 +1,6 @@
 package client_server.data;
 
+import controllers.data.BusStopShedule;
 import data.BusStop;
 import data.Line;
 
@@ -12,10 +13,12 @@ public class ClientData {
     private Line searchedLine;
     private List<BusStop> busStops;
     private BusStop searchedBusStop;
+    private List<BusStopShedule> listBusStopShedule;
 
     public ClientData() {
         allLines = new ArrayList<>();
         busStops = new ArrayList<>();
+        listBusStopShedule = new ArrayList<>();
     }
 
     public List<Line> getAllLines() {
@@ -77,5 +80,13 @@ public class ClientData {
 
     public void setBusStops(List<BusStop> busStops) {
         this.busStops = busStops;
+    }
+
+    public List<BusStopShedule> getListBusStopShedule() {
+        return listBusStopShedule;
+    }
+
+    public void setListBusStopShedule(List<BusStopShedule> listBusStopShedule) {
+        this.listBusStopShedule = listBusStopShedule;
     }
 }

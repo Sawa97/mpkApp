@@ -35,10 +35,15 @@ public class BusStopListPanelController implements ControllersHandlers{
                 anchorPane.getScene().addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent event) {
-                        if(event.getTarget() instanceof Text){
-                            Text t = (Text) event.getTarget();
-                            Client.CLIENT_INSTANCE.setSearchedBusStop(t.getText());
-                            newStage("busStopShedulePanel.fxml",false,"Rozkład Przystanku", StageStyle.DECORATED);
+                        try {
+                            if (event.getTarget() instanceof Text) {
+                                Text t = (Text) event.getTarget();
+                                Client.CLIENT_INSTANCE.setSearchedBusStop(t.getText());
+                                Client.CLIENT_INSTANCE.setRequest("GETSHEDULE");
+                                newStage("busStopShedulePanel.fxml", false, "Rozkład Przystanku", StageStyle.DECORATED);
+                            }
+                        }catch (Exception e){
+                            e.printStackTrace();
                         }
 
                     }

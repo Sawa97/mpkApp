@@ -2,20 +2,14 @@ package controllers;
 
 import client_server.Client;
 import controllers.data.BusStopShedule;
-import data.Line;
-import data.SingleInformation;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Border;
-import org.joda.time.DateTime;
-import org.joda.time.Minutes;
 
-import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.List;
 
 public class BusStopShedulePanelController{
 
@@ -26,7 +20,7 @@ public class BusStopShedulePanelController{
     ScrollPane scrollPane;
 
     private AnchorPane anchorPane;
-    private List<BusStopShedule> list = new ArrayList<>();
+    //private List<BusStopShedule> list = new ArrayList<>();
 
     public void initialize(){
         Platform.runLater(new Runnable() {
@@ -44,8 +38,7 @@ public class BusStopShedulePanelController{
         anchorPane = new AnchorPane();
         anchorPane.getStyleClass().add("pane");
         scrollPane.setFitToWidth(true);
-        createListofBuses();
-        list.sort(new Comparator<BusStopShedule>() {
+        Client.CLIENT_INSTANCE.getListBusStopShedule().sort(new Comparator<BusStopShedule>() {
             @Override
             public int compare(BusStopShedule o1, BusStopShedule o2) {
                 return Integer.compare(o1.getTimeToLeave(),o2.getTimeToLeave());
@@ -73,7 +66,7 @@ public class BusStopShedulePanelController{
 
         ////////////////////////
 
-        for(BusStopShedule bus : list) {
+        for(BusStopShedule bus : Client.CLIENT_INSTANCE.getListBusStopShedule()) {
 
             centerPane = new AnchorPane();
             topPane = new AnchorPane();
@@ -149,23 +142,5 @@ public class BusStopShedulePanelController{
         }
 
 
-    }
-
-
-    public void createListofBuses(){
-        list = new ArrayList<>();
-        for(Line line : Client.CLIENT_INSTANCE.getSearchedBusStop().getListOfLine())
-        {
-            for(SingleInformation single : line.getPlan()){
-                if(single.getBusStop().getBusStopName().equals(Client.CLIENT_INSTANCE.getSearchedBusStop().getBusStopName())){
-
-                    int time = Minutes.minutesBetween(new DateTime(),single.getDate()).getMinutes();
-                    if(time<=480 && time>0)
-                    {
-                        list.add(new BusStopShedule(line.getEndStation(),time,line,single.getDate()));
-                    }
-                }
-            }
-        }
     }
 }
