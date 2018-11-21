@@ -1,8 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXDatePicker?>
+<?import com.jfoenix.controls.JFXTimePicker?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane prefHeight="276.0" prefWidth="262.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="TimePanel">
-
+<AnchorPane prefHeight="319.0" prefWidth="375.0" styleClass="pane" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.TimePanelController">
+   <children>
+      <JFXDatePicker fx:id="datePicker" defaultColor="#8f1800" layoutX="146.0" layoutY="72.0" promptText="" />
+      <JFXTimePicker fx:id="timePicker" defaultColor="#8f1800" layoutX="149.0" layoutY="139.0" prefHeight="38.0" prefWidth="200.0" />
+      <Label layoutX="21.0" layoutY="76.0" styleClass="destinationLabel" stylesheets="@style.css" text="Podaj date" />
+      <Label layoutX="23.0" layoutY="158.0" styleClass="destinationLabel" stylesheets="@style.css" text="Podaj czas" />
+      <Label layoutX="132.0" layoutY="26.0" styleClass="destinationLabel" stylesheets="@style.css" text="Czas odjazdu" />
+      <Button layoutX="41.0" layoutY="251.0" mnemonicParsing="false" onAction="#actualTimeHandler" text="Użyj aktualnego" />
+      <Button layoutX="231.0" layoutY="251.0" mnemonicParsing="false" onAction="#okHandler" text="OK" />
+   </children>
 </AnchorPane>

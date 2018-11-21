@@ -2,6 +2,7 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -10,7 +11,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="453.0" prefWidth="372.0" styleClass="pane" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.SearchController">
+<AnchorPane prefHeight="453.0" prefWidth="372.0" styleClass="pane" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.SearchPanelController">
    <children>
       <ImageView fitHeight="34.0" fitWidth="56.0" layoutX="56.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -23,30 +24,41 @@
          </font>
       </Label>
       <Line endX="260.0" layoutX="111.0" layoutY="89.0" startX="-190.0" strokeMiterLimit="18.0" styleClass="line" />
-      <JFXTextField fx:id="search1" layoutX="31.0" layoutY="132.0" onAction="#searchHandler1" prefHeight="31.0" prefWidth="310.0" styleClass="searchText" stylesheets="@style.css" />
-      <JFXTextField fx:id="search2" layoutX="35.0" layoutY="251.0" onAction="#searchHandler2" prefHeight="31.0" prefWidth="310.0" styleClass="searchText" stylesheets="@style.css" />
+      <JFXTextField fx:id="searchStart" layoutX="31.0" layoutY="132.0" prefHeight="31.0" prefWidth="310.0" styleClass="searchText" stylesheets="@style.css" />
+      <JFXTextField fx:id="searchStop" layoutX="35.0" layoutY="251.0" prefHeight="31.0" prefWidth="310.0" styleClass="searchText" stylesheets="@style.css" />
       <JFXButton fx:id="changeButton" layoutX="24.0" layoutY="321.0" mnemonicParsing="false" onAction="#changeHandler" prefHeight="21.0" prefWidth="57.0" text="0" />
-      <ImageView fitHeight="42.0" fitWidth="49.0" layoutX="83.0" layoutY="321.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="timeImage" fitHeight="42.0" fitWidth="49.0" layoutX="83.0" layoutY="321.0" onMouseClicked="#timeHandler" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@images/Clock.png" />
          </image>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </ImageView>
-      <ImageView fitHeight="42.0" fitWidth="75.0" layoutX="145.0" layoutY="320.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="42.0" fitWidth="75.0" layoutX="145.0" layoutY="320.0" onMouseClicked="#optionHandler" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@images/Walking.png" />
          </image>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </ImageView>
-      <ImageView fitHeight="42.0" fitWidth="42.0" layoutX="293.0" layoutY="321.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="42.0" fitWidth="42.0" layoutX="293.0" layoutY="321.0" onMouseClicked="#startSearchHandler" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@images/Search.png" />
          </image>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </ImageView>
-      <ImageView fitHeight="42.0" fitWidth="107.0" layoutX="167.0" layoutY="201.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="42.0" fitWidth="107.0" layoutX="167.0" layoutY="201.0" onMouseClicked="#replaceHandler" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@images/Replace.png" />
          </image>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </ImageView>
-      <Line endX="20.0" layoutX="104.0" layoutY="372.0" startX="-20.0" stroke="#2b2b2b" />
       <Text fx:id="text" fill="WHITE" layoutX="81.0" layoutY="388.0" styleClass="informationLabel" textAlignment="CENTER" wrappingWidth="188.0" />
    </children>
 </AnchorPane>
