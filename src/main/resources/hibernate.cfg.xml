@@ -6,6 +6,7 @@
     <session-factory>
         <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
         <property name="hibernate.connection.url">jdbc:postgresql://localhost:5432/mpk</property>
+        <property name="hibernate.connection.release_mode">after_transaction</property>
         <property name="hibernate.connection.username">mpkClient</property>
         <property name="hibernate.connection.password">password</property>
         <property name="hibernate.connection.pool_size">100</property>
@@ -19,7 +20,7 @@
 
         <mapping class="data.BusStop"/>
         <mapping class="data.Line"/>
-        <mapping class="data.SingleInformation"/>
-        <mapping class="data.WalkTime"/>
+        <mapping class="data.Graph"/>
+        <mapping class="data.Connection"/>
     </session-factory>
 </hibernate-configuration>

@@ -16,6 +16,7 @@ public class TimePanelController {
 
     public void actualTimeHandler(){
         Client.CLIENT_INSTANCE.setActualTime(true);
+        Client.CLIENT_INSTANCE.setSearchingTime(new DateTime());
 
     }
 

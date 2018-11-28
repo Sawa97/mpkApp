@@ -9,26 +9,23 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 public class BusStop implements Serializable {
     @Id
     private int busStopNumber;
     private String busStopName;
-    @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @NotFound(action = NotFoundAction.IGNORE)
     @Fetch(value = FetchMode.SUBSELECT)
     private List<Line> listOfLine;
-    @ManyToMany(cascade = CascadeType.ALL)
-    @NotFound(action = NotFoundAction.IGNORE)
-    @Fetch(value = FetchMode.SUBSELECT)
-    private List<WalkTime> listOfWalkTime;
+
 
     public BusStop(int busStopNumber, String busStopName) {
         this.busStopName = busStopName;
         this.busStopNumber = busStopNumber;
         this.listOfLine = new ArrayList<>();
-        this.listOfWalkTime = new ArrayList<>();
     }
 
     public BusStop() {
@@ -50,13 +47,6 @@ public class BusStop implements Serializable {
         this.listOfLine = listOfLine;
     }
 
-    public List<WalkTime> getListOfWalkTime() {
-        return listOfWalkTime;
-    }
-
-    public void setListOfWalkTime(List<WalkTime> listOfWalkTime) {
-        this.listOfWalkTime = listOfWalkTime;
-    }
 
     public String getBusStopName() {
         return busStopName;
@@ -64,5 +54,18 @@ public class BusStop implements Serializable {
 
     public void setBusStopName(String busStopName) {
         this.busStopName = busStopName;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof BusStop)) return false;
+        BusStop busStop = (BusStop) o;
+        return getBusStopNumber() == busStop.getBusStopNumber();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getBusStopNumber());
     }
 }

@@ -37,7 +37,7 @@ public class LineShedulePanelController implements ControllersHandlers{
             public void run() {
 
 
-                createLineButtons(Client.CLIENT_INSTANCE.getAllLines());
+                createLineButtons(Client.CLIENT_INSTANCE.getGraph().getLineList());
 
                 centerPane.getScene().addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
                     @Override
@@ -56,7 +56,7 @@ public class LineShedulePanelController implements ControllersHandlers{
         searchLine.textProperty().addListener((observable, oldValue, newValue) -> {
             centerPane.getChildren().clear();
             if(newValue.equals("")||newValue.isEmpty()){
-                createLineButtons(Client.CLIENT_INSTANCE.getAllLines());
+                createLineButtons(Client.CLIENT_INSTANCE.getGraph().getLineList());
             }
             else
             {

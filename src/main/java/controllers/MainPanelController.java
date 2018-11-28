@@ -52,7 +52,7 @@ public class MainPanelController implements InternetConnection, ControllersHandl
 
 
         CLIENT_INSTANCE.setInformationFromPanel(InformationFromPanel.shedule);
-        loadBusData();
+        loadData();
         this.newStage("busStopListPanel.fxml", false, "Rozkład Przystanków", StageStyle.DECORATED);
 
     }
@@ -63,23 +63,18 @@ public class MainPanelController implements InternetConnection, ControllersHandl
     }
 
     public void lineHandler() throws Exception {
-    loadLineData();
+    loadData();
         this.newStage("lineShedulePanel.fxml", false, "Rozkład Linii", StageStyle.DECORATED);
 
 
     }
 
-    private void loadLineData() throws Exception {
-        if (CLIENT_INSTANCE.getAllLines().size() == 0) {
-            CLIENT_INSTANCE.setRequest("GETLINES");
+    private void loadData() throws Exception {
+        if (!CLIENT_INSTANCE.isGraph()) {
+            CLIENT_INSTANCE.setRequest("GETGRAPH");
         }
     }
 
-    private void loadBusData() throws Exception{
-        if(CLIENT_INSTANCE.getBusStops().size() == 0){
-            CLIENT_INSTANCE.setRequest("GETBUSSTOPS");
-        }
-    }
 
 
 }

@@ -1,24 +1,25 @@
 package client_server;
 
 import client_server.data.ClientData;
+import client_server.data.Plan;
 import controllers.data.BusStopShedule;
-import data.BusStop;
-import data.Line;
+import data.Graph;
 
 import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
-public class Client extends ClientData {
-    private InetAddress ip;
-    private Socket s;
+public class Client extends ClientData implements Serializable {
+    private transient InetAddress ip;
+    private transient Socket s;
     public static Client CLIENT_INSTANCE = new Client();
-    private DataInputStream dis;
-    private DataOutputStream dos;
+    private transient DataInputStream dis;
+    private transient DataOutputStream dos;
     private String request = null;
-    private ObjectInputStream inFromServer;
-    private ObjectOutputStream outToServer;
+    private transient ObjectInputStream inFromServer;
+    private transient ObjectOutputStream outToServer;
 
     public void startConnection(){
         try {
@@ -50,23 +51,23 @@ public class Client extends ClientData {
         if(this.request!=null&&!this.request.equals("")) {
             dos.writeUTF(this.request);
             switch(request){
-                case "GETLINES":{
+                case "GETGRAPH":{
                     object =  inFromServer.readObject();
-                    CLIENT_INSTANCE.setAllLines((ArrayList<Line>) object);
-                    break;
-                }
-
-                case "GETBUSSTOPS":{
-                    object = inFromServer.readObject();
-                    CLIENT_INSTANCE.setBusStops((ArrayList<BusStop>) object);
+                    CLIENT_INSTANCE.setGraph((Graph)object);
                     break;
                 }
 
                 case "GETSHEDULE":{
-                    outToServer.writeObject(CLIENT_INSTANCE.getSearchedBusStop()); //wysłanie wybranego przystanku
+                    outToServer.writeObject(CLIENT_INSTANCE); //wysłanie wybranego przystanku
                     object = inFromServer.readObject();
-                    CLIENT_INSTANCE.setListBusStopShedule((ArrayList<BusStopShedule>) object);
+                    CLIENT_INSTANCE.setListBusStopShedule((ArrayList<BusStopShedule>) object);  // do sprawdzenia
                     break;
+                }
+
+                case "SEARCH":{
+                    outToServer.writeObject(CLIENT_INSTANCE); // do zmiany
+                    object = inFromServer.readObject();
+                    CLIENT_INSTANCE.setPlanList(((LinkedList<Plan>) object));
                 }
                 default:{
                     break;

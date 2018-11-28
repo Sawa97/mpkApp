@@ -7,8 +7,9 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.IOException;
+import java.io.Serializable;
 
-public class Main extends Application {
+public class Main extends Application implements Serializable {
     public static void main(String[] args) throws IOException {
 
         launch(args);
@@ -27,7 +28,6 @@ public class Main extends Application {
 
 
         Client.CLIENT_INSTANCE.startConnection();
-
 
     }
 }

@@ -2,46 +2,33 @@ package client_server.data;
 
 import controllers.data.BusStopShedule;
 import data.BusStop;
+import data.Graph;
 import data.Line;
-import org.joda.time.DateTime;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ClientData {
+public class ClientData extends SearchDataHandler implements Serializable {
 
 
-    private List<Line> allLines;
     private Line searchedLine;
-    private List<BusStop> busStops;
     private BusStop searchedBusStop;
     private List<BusStopShedule> listBusStopShedule;
-    private int maxCountofChange;
-    private DateTime searchingTime;
-    private Boolean actualTime = true;
-    private WayOfTravel wayOfTravel = WayOfTravel.fastest;
-    private BusStop startStation;
-    private BusStop endStation;
     private InformationFromPanel informationFromPanel = InformationFromPanel.shedule;
+    private Graph graph;
+    private boolean isGraph = false;
 
 
     public ClientData() {
-        allLines = new ArrayList<>();
-        busStops = new ArrayList<>();
         listBusStopShedule = new ArrayList<>();
     }
 
-    public List<Line> getAllLines() {
-        return allLines;
-    }
 
-    public void setAllLines(List<Line> allLines) {
-        this.allLines = allLines;
-    }
 
     public List<Line> searchLines(String condition){
         List<Line> resultList = new ArrayList<>();
-        for(Line line: allLines){
+        for(Line line: graph.getLineList()){
             if(line.getLineNumber().startsWith(condition)){
                 resultList.add(line);
             }
@@ -51,7 +38,7 @@ public class ClientData {
 
     public List<BusStop> busStops(String condition){
         List<BusStop> resultList = new ArrayList<>();
-        for(BusStop busStop: busStops){
+        for(BusStop busStop:  graph.getBusStops()){
             if(busStop.getBusStopName().toLowerCase().startsWith(condition.toLowerCase())){
                 resultList.add(busStop);
             }
@@ -64,7 +51,7 @@ public class ClientData {
     }
 
     public void setSearchedLine(String number) {
-        for(Line line: allLines){
+        for(Line line: graph.getLineList()){
             if(line.getLineNumber().equals(number)){
                 this.searchedLine = line;
             }
@@ -72,25 +59,18 @@ public class ClientData {
     }
 
 
-    public List<BusStop> getBusStops() {
-        return busStops;
-    }
-
     public BusStop getSearchedBusStop() {
         return searchedBusStop;
     }
 
     public void setSearchedBusStop(String busStopName) {
-        for(BusStop busStop: busStops){
+        for(BusStop busStop: graph.getBusStops()){
             if(busStop.getBusStopName().equals(busStopName)){
                 this.searchedBusStop = busStop;
             }
         }
     }
 
-    public void setBusStops(List<BusStop> busStops) {
-        this.busStops = busStops;
-    }
 
     public List<BusStopShedule> getListBusStopShedule() {
         return listBusStopShedule;
@@ -100,58 +80,30 @@ public class ClientData {
         this.listBusStopShedule = listBusStopShedule;
     }
 
-    public int getMaxCountofChange() {
-        return maxCountofChange;
-    }
 
-    public void setMaxCountofChange(int maxCountofChange) {
-        this.maxCountofChange = maxCountofChange;
-    }
 
-    public DateTime getSearchingTime() {
-        return searchingTime;
-    }
 
-    public void setSearchingTime(DateTime searchingTime) {
-        this.searchingTime = searchingTime;
-    }
-
-    public Boolean getActualTime() {
-        return actualTime;
-    }
-
-    public void setActualTime(Boolean actualTime) {
-        this.actualTime = actualTime;
-    }
-
-    public WayOfTravel getWayOfTravel() {
-        return wayOfTravel;
-    }
-
-    public void setWayOfTravel(WayOfTravel wayOfTravel) {
-        this.wayOfTravel = wayOfTravel;
-    }
-
-    public BusStop getStartStation() {
-        return startStation;
-    }
 
     public void setStartStation(String busStopName) {
-        for(BusStop busStop: busStops){
+        for(BusStop busStop: graph.getBusStops()){
             if(busStop.getBusStopName().equals(busStopName)){
-                this.startStation = busStop;
+                this.setStartStation(busStop);
             }
         }
     }
 
-    public BusStop getEndStation() {
-        return endStation;
+    public boolean isGraph() {
+        return isGraph;
+    }
+
+    public void setGraph(boolean graph) {
+        isGraph = graph;
     }
 
     public void setEndStation(String busStopName) {
-        for(BusStop busStop: busStops){
+        for(BusStop busStop: graph.getBusStops()){
             if(busStop.getBusStopName().equals(busStopName)){
-                this.endStation = busStop;
+               this.setEndStation(busStop);
             }
         }
     }
@@ -164,11 +116,12 @@ public class ClientData {
         this.informationFromPanel = informationFromPanel;
     }
 
-    public void setStartStation(BusStop startStation) {
-        this.startStation = startStation;
+    public Graph getGraph() {
+        return graph;
     }
 
-    public void setEndStation(BusStop endStation) {
-        this.endStation = endStation;
+    public void setGraph(Graph graph) {
+        this.graph = graph;
+        this.isGraph=true;
     }
 }

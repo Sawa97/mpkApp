@@ -34,6 +34,7 @@ public class BusStopListPanelController implements ControllersHandlers{
             public void run() {
                 createScrollPaneContent();
 
+
                 anchorPane.getScene().addEventFilter(MouseEvent.MOUSE_PRESSED, new EventHandler<MouseEvent>() {
                     @Override
                     public void handle(MouseEvent event) {
@@ -74,7 +75,7 @@ public class BusStopListPanelController implements ControllersHandlers{
         searchLine.textProperty().addListener((observable, oldValue, newValue) -> {
             anchorPane.getChildren().clear();
             if(newValue.equals("")||newValue.isEmpty()){
-                createBusStopButtons(Client.CLIENT_INSTANCE.getBusStops(),anchorPane);
+                createBusStopButtons(Client.CLIENT_INSTANCE.getGraph().getBusStops(),anchorPane);
             }
             else {
                 createBusStopButtons(Client.CLIENT_INSTANCE.busStops(newValue),anchorPane);
@@ -87,23 +88,23 @@ public class BusStopListPanelController implements ControllersHandlers{
         anchorPane = new AnchorPane();
         anchorPane.getStyleClass().add("pane");
         scrollPane.setFitToWidth(true);
-        createBusStopButtons(Client.CLIENT_INSTANCE.getBusStops(), anchorPane);
+        createBusStopButtons(Client.CLIENT_INSTANCE.getGraph().getBusStops(), anchorPane);
         scrollPane.setContent(anchorPane);
         scrollPane.setFitToHeight(true);
         scrollPane.setBorder(Border.EMPTY);
     }
 
-    public void createBusStopButtons(List<BusStop> list, AnchorPane anchorPane){
+private void createBusStopButtons(List<BusStop> list, AnchorPane anchorPane){
         Button btn;
         double actualY = 0;
         for(int i=0; i<list.size(); i++){
-            btn = new Button();
-            btn.setText(list.get(i).getBusStopName());
-            btn.setLayoutX(0);
-            btn.setLayoutY(actualY);
-            btn.setPrefSize(350,50);
-            anchorPane.getChildren().add(btn);
-            actualY+=50;
+                btn = new Button();
+                btn.setText(list.get(i).getBusStopName());
+                btn.setLayoutX(0);
+                btn.setLayoutY(actualY);
+                btn.setPrefSize(350, 50);
+                anchorPane.getChildren().add(btn);
+                actualY += 50;
         }
 
     }

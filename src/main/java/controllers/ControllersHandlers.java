@@ -36,8 +36,8 @@ public interface ControllersHandlers {
     }
 
     default double calculateSize(){
-        return 92+(Client.CLIENT_INSTANCE.getSearchedLine().getPlan().size()*40)+37;
-        //92 odległóść od góry, 40 przestrzeń zajmowana przez jeden element, 37 odległość od dołu
+        return 92+(Client.CLIENT_INSTANCE.getSearchedLine().getBusStopList().size()*40)+40;
+        //92 odległóść od góry, 40 przestrzeń zajmowana przez jeden element, 40 odległość od dołu
     }
 
 }

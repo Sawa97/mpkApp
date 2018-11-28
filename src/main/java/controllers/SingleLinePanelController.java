@@ -1,6 +1,7 @@
 package controllers;
 
 import client_server.Client;
+import data.BusStop;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -47,31 +48,29 @@ public class SingleLinePanelController {
 
 
 
-        for(int i=0; i<Client.CLIENT_INSTANCE.getSearchedLine().getPlan().size();i++){
+        for(BusStop busStop : Client.CLIENT_INSTANCE.getSearchedLine().getBusStopList())
+        {
+                imageView = new ImageView(image);
+                imageView.setFitHeight(17);
+                imageView.setFitWidth(17);
+                imageView.setX(14);
+                imageView.setY(actualY);
+                pane.getChildren().add(imageView);
+                ////////////////////////////////////////
 
-            //image part
-            imageView = new ImageView(image);
-            imageView.setFitHeight(17);
-            imageView.setFitWidth(17);
-            imageView.setX(14);
-            imageView.setY(actualY);
-            pane.getChildren().add(imageView);
-            ////////////////////////////////////////
 
+                //Label
+                label = new Label();
+                label.setLayoutY(actualY-5);
+                label.setLayoutX(50);
+                label.setText(busStop.getBusStopName());
+                pane.getChildren().add(label);
+                //////////////////////////////////////////
 
-            //Label
-            label = new Label();
-            label.setLayoutY(actualY-5);
-            label.setLayoutX(50);
-            label.setText(Client.CLIENT_INSTANCE.getSearchedLine().getPlan().get(i).getBusStop().getBusStopName());
-            pane.getChildren().add(label);
-            //////////////////////////////////////////
-
-            actualY+=40;
+                actualY+=40;
+            }
         }
 
-
-    }
 
 
 

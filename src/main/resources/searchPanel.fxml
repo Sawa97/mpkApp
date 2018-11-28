@@ -32,7 +32,7 @@
          <font>
             <Font size="17.0" />
          </font></JFXTextField>
-      <JFXButton fx:id="changeButton" layoutX="24.0" layoutY="321.0" mnemonicParsing="false" onAction="#changeHandler" prefHeight="21.0" prefWidth="57.0" text="0" />
+      <JFXButton fx:id="changeButton" layoutX="24.0" layoutY="321.0" mnemonicParsing="false" onAction="#changeHandler" prefHeight="21.0" prefWidth="57.0" text="3" />
       <ImageView fx:id="timeImage" fitHeight="42.0" fitWidth="49.0" layoutX="83.0" layoutY="321.0" onMouseClicked="#timeHandler" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@images/Clock.png" />
