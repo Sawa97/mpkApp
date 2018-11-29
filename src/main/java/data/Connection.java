@@ -28,14 +28,12 @@ public class Connection implements Serializable {
     @Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
     private DateTime date;
 
-    public Connection(BusStop startBusStop, BusStop endBusStop, int time, boolean walk, int distance, Line line, DateTime dateTime) {
+    public Connection(BusStop startBusStop, BusStop endBusStop, int time, boolean walk, int distance) {
         this.startBusStop = startBusStop;
         this.endBusStop = endBusStop;
         this.time = time;
         this.walk = walk;
         this.distance = distance;
-        this.line = line;
-        this.date = dateTime;
     }
 
     public Connection(BusStop startBusStop, BusStop endBusStop, int time, Line line, DateTime dateTime) {

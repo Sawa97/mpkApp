@@ -67,7 +67,7 @@ public class Client extends ClientData implements Serializable {
                 case "SEARCH":{
                     outToServer.writeObject(CLIENT_INSTANCE); // do zmiany
                     object = inFromServer.readObject();
-                    CLIENT_INSTANCE.setPlanList(((LinkedList<Plan>) object));
+                    CLIENT_INSTANCE.setPlanList(((LinkedList<Plan>) object)); //odbieranie null !?
                 }
                 default:{
                     break;

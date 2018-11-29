@@ -29,10 +29,10 @@ public class MainPanelController implements InternetConnection, ControllersHandl
         search.setFocusTraversable(false);
         line.setFocusTraversable(false);
 
-        if (!this.netIsAvailable()) {
-            this.newStage("internetPanel.fxml", true, "Internet", StageStyle.UNDECORATED);
-
-        }
+//        if (!this.netIsAvailable()) {
+//            this.newStage("internetPanel.fxml", true, "Internet", StageStyle.UNDECORATED);
+//
+//        }
         Platform.runLater(new Runnable() {
             @Override
             public void run() {

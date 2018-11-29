@@ -96,7 +96,9 @@ public class SearchPanelController implements ControllersHandlers {
         Client.CLIENT_INSTANCE.setInformationFromPanel(InformationFromPanel.start);
         Stage stage = this.newStage("busStopListPanel.fxml", false, "Przystanek Początkowy", StageStyle.DECORATED);
         stage.setOnHidden(event -> {
-            searchStart.setText(Client.CLIENT_INSTANCE.getStartStation().getBusStopName());
+            if(CLIENT_INSTANCE.getStartStation().getBusStopName()!=null) {
+                searchStart.setText(Client.CLIENT_INSTANCE.getStartStation().getBusStopName());
+            }
         });
 
 
@@ -110,7 +112,9 @@ public class SearchPanelController implements ControllersHandlers {
 
         Stage stage = this.newStage("busStopListPanel.fxml", false, "Przystanek Docelowy", StageStyle.DECORATED);
         stage.setOnHidden(event -> {
-            searchStop.setText(Client.CLIENT_INSTANCE.getEndStation().getBusStopName());
+            if(CLIENT_INSTANCE.getEndStation().getBusStopName()!=null) {
+                searchStop.setText(Client.CLIENT_INSTANCE.getEndStation().getBusStopName());
+            }
         });
 
     }

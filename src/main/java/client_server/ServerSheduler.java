@@ -50,7 +50,9 @@ public class ServerSheduler {
 
     public static String reconnect(){
         if(ServerOne.SERVERONE_INSTANCE.getSocketsCount()<= ServerTwo.SERVERTWO_INSTANCE.getSocketsCount()){
-
+            System.out.println("to");
+            System.out.println(ServerOne.SERVERONE_INSTANCE.getSocketsCount());
+            System.out.println(ServerTwo.SERVERTWO_INSTANCE.getSocketsCount());
             return "reconnect6001";
         }
         return "reconnect6002";

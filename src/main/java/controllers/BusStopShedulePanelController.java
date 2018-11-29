@@ -131,6 +131,10 @@ public class BusStopShedulePanelController{
 
             time.setLayoutX(300);
             time.setLayoutY(35);
+            if(bus.getTime().getMinuteOfHour()<10){
+                time.setText(Integer.toString(bus.getTime().getHourOfDay())+":"+"0"+Integer.toString(bus.getTime().getMinuteOfHour()));
+
+            }
             time.setText(Integer.toString(bus.getTime().getHourOfDay())+":"+Integer.toString(bus.getTime().getMinuteOfHour()));
             time.getStyleClass().add("busStopLabel");
             centerPane.getChildren().add(time);

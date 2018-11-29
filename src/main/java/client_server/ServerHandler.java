@@ -80,7 +80,7 @@ class ServerHandler extends Thread {
                 session = factory.openSession();
                 CriteriaQuery<Graph> criteriaQuery = session.getCriteriaBuilder().createQuery(Graph.class);
                 criteriaQuery.from(Graph.class);
-                List<Graph> graph= session.createQuery(criteriaQuery).getResultList();
+                List<Graph> graph = session.createQuery(criteriaQuery).getResultList();
                 outToClient.writeObject(graph.get(0));
                 session.close();
 
@@ -91,21 +91,23 @@ class ServerHandler extends Thread {
                 Object object = inFromClient.readObject();
                 Client client = (Client) object;
                 List<BusStopShedule> listShedule = new ArrayList<>();
-                    for (Connection connection : client.getGraph().getConnections()) {
-                        if (connection.getStartBusStop().getBusStopName().equals(client.getSearchedBusStop().getBusStopName())) {
+                for (Connection connection : client.getGraph().getConnections()) {
+                    if (!connection.isWalk()) {
 
+                        if (connection.getStartBusStop().getBusStopName().equals(client.getSearchedBusStop().getBusStopName())) {
                             int time = Minutes.minutesBetween(new DateTime(), connection.getDate()).getMinutes();
                             if (time <= 480 && time > 0) {
-                                listShedule.add(new BusStopShedule(connection.getLine().getEndStation(), time, connection.getLine(),connection.getDate()));
+                                listShedule.add(new BusStopShedule(connection.getLine().getEndStation(), time, connection.getLine(), connection.getDate()));
                             }
                         }
+                    }
                 }
                 outToClient.writeObject(listShedule);
                 break;
             }
 
-            case "SEARCH":{
-                String actualLine="";
+            case "SEARCH": {
+                String actualLine = "";
                 Object object = inFromClient.readObject();
                 Client client = (Client) object;
                 DijkstraAlgorithm dj = new DijkstraAlgorithm(client);
@@ -115,61 +117,79 @@ class ServerHandler extends Thread {
                 Plan plan = new Plan();
                 int time = 0;
                 int stationInRow = 1;
-                int i=0;
+                int i = 0;
+                boolean onlyWalk = true;
 
 
-               // outToClient.writeObject(path);
-                for(Plan p : path){
-                    i++;
-                    if (actualLine.equals("")) {
-                        actualLine = p.getLine();
-                        plan = new Plan();
-                        plan.setStartStation(p.getStartStation());
-                        plan.setLine(p.getLine());
-                        plan.setStartTime(p.getStartTime());
-                        plan.setWaitingTimeforBus(p.getWaitingTimeforBus());
-                        plan.setWalkdistance(p.getWalkdistance());
-                        time = p.getTime();
-                        stationInRow++;
-                        continue;
+                if (path != null) {
+                    for (Plan p : path) {
+                        if(p.getWalkdistance()==0){
+                            onlyWalk=false;
+                        }
+                        i++;
+                        if (p.getWalkdistance() > 0) {
+                            plan = new Plan();
+                            plan.setStartStation(p.getStartStation());
+                            plan.setEndStation(p.getEndStation());
+                            plan.setWalkdistance(p.getWalkdistance());
+                            plan.setTime(p.getTime());
+                            generalPlan.add(plan);
+
+                            continue;
+                        }
+                        if (actualLine.equals("")) {
+                            actualLine = p.getLine();
+                            plan = new Plan();
+                            plan.setStartStation(p.getStartStation());
+                            plan.setLine(p.getLine());
+                            plan.setStartTime(p.getStartTime());
+                            plan.setWaitingTimeforBus(p.getWaitingTimeforBus());
+                            plan.setWalkdistance(p.getWalkdistance());
+                            time = p.getTime();
+                            stationInRow++;
+                            continue;
+
+                        } else if (actualLine.equals(p.getLine())) {
+                            time += p.getTime();
+                            stationInRow++;
+                            plan.setCountofStation(stationInRow - 2);
+                            plan.setEndTime(p.getEndTime());
+                            plan.setTime(time);
+                            plan.setEndStation(p.getEndStation());
+
+                        }
+
+                        if (!actualLine.equals(p.getLine())) {
+                            generalPlan.add(plan);
+                            plan = new Plan();
+                            plan.setStartStation(p.getStartStation());
+                            plan.setLine(p.getLine());
+                            plan.setStartTime(p.getStartTime());
+                            plan.setWaitingTimeforBus(p.getWaitingTimeforBus());
+                            plan.setWalkdistance(p.getWalkdistance());
+                            actualLine = p.getLine();
+                            stationInRow = 2;
+                            time = p.getTime();
+                        }
+
+                        if (i == path.size() - 1) {
+                            plan.setCountofStation(stationInRow - 2);
+                            plan.setEndTime(p.getEndTime());
+                            plan.setTime(time);
+                            plan.setEndStation(p.getEndStation());
+                            generalPlan.add(plan);
+                        }
 
                     }
-                    else if(actualLine.equals(p.getLine())){
-                        time+=p.getTime();
-                        stationInRow++;
-                        plan.setCountofStation(stationInRow-2);
-                        plan.setEndTime(p.getEndTime());
-                        plan.setTime(time);
-                        plan.setEndStation(p.getEndStation());
-
+                    System.out.println("--------------------");
+                    for (Plan p : generalPlan) {                                                 //do usunięcia potem
+                        System.out.println(p);
                     }
-
-                    if(!actualLine.equals(p.getLine())){
-                        generalPlan.add(plan);
-                        plan = new Plan();
-                        plan.setStartStation(p.getStartStation());
-                        plan.setLine(p.getLine());
-                        plan.setStartTime(p.getStartTime());
-                        plan.setWaitingTimeforBus(p.getWaitingTimeforBus());
-                        plan.setWalkdistance(p.getWalkdistance());
-                        actualLine = p.getLine();
-                        stationInRow = 2;
-                        time = p.getTime();
-                    }
-
-                    if(i==path.size()-1){
-                        plan.setCountofStation(stationInRow-2);
-                        plan.setEndTime(p.getEndTime());
-                        plan.setTime(time);
-                        plan.setEndStation(p.getEndStation());
-                        generalPlan.add(plan);
-                    }
-
                 }
-                System.out.println("--------------------");
-                for(Plan p: generalPlan){
-                    System.out.println(p);
+                if(onlyWalk){
+                    generalPlan = new LinkedList<>();
                 }
+                outToClient.writeObject(generalPlan);
 
             }
             default: {
@@ -177,7 +197,6 @@ class ServerHandler extends Thread {
 
         }
     }
-
 
 
 //    private void searchMethod(ClientData clientData){

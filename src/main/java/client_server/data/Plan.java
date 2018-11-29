@@ -3,7 +3,9 @@ package client_server.data;
 import data.BusStop;
 import org.joda.time.DateTime;
 
-public class Plan {
+import java.io.Serializable;
+
+public class Plan implements Serializable {
     private BusStop startStation;
     private BusStop endStation;
     private String line;

@@ -10,6 +10,9 @@
 .listCenterPane{
     -fx-background-color:#202020 ;
 }
+.walkPane{
+    -fx-background-color: #7BC5F6''
+}
 .line{
     -fx-stroke:  white
 }

@@ -101,6 +101,14 @@ public class DijkstraAlgorithm {
 
             if (edge.getStartBusStop().equals(node)
                     && edge.getEndBusStop().equals(target)) {
+                if(edge.isWalk()){
+                    plan.setWalkdistance(edge.getDistance());
+                    plan.setTime(edge.getTime());
+                    if (clientData.getWayOfTravel().equals(WayOfTravel.minDistance)){
+                        return 1000;
+                    }
+                    return edge.getTime();
+                }
                 if(lastLineNumber==null){
                     lastLineNumber = edge.getLine().getLineNumber();
                     actualLineNumber = edge.getLine().getLineNumber();
@@ -109,17 +117,8 @@ public class DijkstraAlgorithm {
                     lastLineNumber = actualLineNumber;
                     actualLineNumber = edge.getLine().getLineNumber();
                 }
-                if (clientData.getWayOfTravel().equals(WayOfTravel.minDistance)){
-                    if(edge.isWalk()){
-                        return 1000;
-                    }
-                }
-
 
                 plan.setLine(actualLineNumber);
-                if(edge.isWalk()){
-                    plan.setWalkdistance(edge.getDistance());
-                }
                 if(!lastLineNumber.equals(actualLineNumber)&&clientData.getWayOfTravel().equals(WayOfTravel.minCountOfChanges)){
                     addTime = 10;
                     if(lastLineNumber.equals(actualLineNumber)){
