@@ -18,6 +18,9 @@ public class TimePanelController {
         Client.CLIENT_INSTANCE.setActualTime(true);
         Client.CLIENT_INSTANCE.setSearchingTime(new DateTime());
 
+        Stage stage = (Stage)datePicker.getScene().getWindow();
+        stage.close();
+
     }
 
     public void okHandler(){

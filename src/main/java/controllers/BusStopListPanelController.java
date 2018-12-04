@@ -62,7 +62,7 @@ public class BusStopListPanelController implements ControllersHandlers{
 
 
                         }catch (Exception e){
-                            e.printStackTrace();
+
                         }
 
                     }
@@ -81,6 +81,14 @@ public class BusStopListPanelController implements ControllersHandlers{
                 createBusStopButtons(Client.CLIENT_INSTANCE.busStops(newValue),anchorPane);
             }
         });
+
+        searchLine.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                //do nothing
+            }
+        });
+
 
     }
 

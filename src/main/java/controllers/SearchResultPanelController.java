@@ -23,7 +23,6 @@ public class SearchResultPanelController {
     @FXML
     ScrollPane scrollPane;
 
-    private AnchorPane anchorPane;
 
     public void initialize() {
         Platform.runLater(new Runnable() {
@@ -76,9 +75,10 @@ public class SearchResultPanelController {
                 Label timeToLeave = new Label();
                 timeToLeave.getStyleClass().add("busStopLabel");
                 timeToLeave.setText(String.valueOf(plan.getWaitingTimeforBus())+" min       ");
-                timeToLeave.setLayoutY(actualY+4);
+                timeToLeave.setLayoutY(4);
                 timeToLeave.setLayoutX(280);
                 leavePane.getChildren().add(timeToLeave);
+
 
                 pane.getChildren().add(leavePane);
 
@@ -88,7 +88,7 @@ public class SearchResultPanelController {
                 image = new Image(fileBus.toURI().toURL().toExternalForm());
                 ImageView imageView = new ImageView(image);
                 imageView.setFitWidth(24);
-                imageView.setFitHeight(31);
+                imageView.setFitHeight(24);
                 imageView.setLayoutX(8);
                 imageView.setLayoutY(actualY+8);
                 pane.getChildren().add(imageView);
@@ -125,7 +125,13 @@ public class SearchResultPanelController {
 
                 Label timeLabel = new Label();
                 busStopLabel.getStyleClass().add("busStopLabel");
-                timeLabel.setText(Integer.toString(plan.getStartTime().getHourOfDay()) + ":" + Integer.toString(plan.getStartTime().getMinuteOfHour()));
+                if(plan.getStartTime().getMinuteOfHour()<10){
+                    timeLabel.setText(Integer.toString(plan.getStartTime().getHourOfDay()) + ":" +"0"+Integer.toString(plan.getStartTime().getMinuteOfHour()));
+
+                }
+                else {
+                    timeLabel.setText(Integer.toString(plan.getStartTime().getHourOfDay()) + ":" + Integer.toString(plan.getStartTime().getMinuteOfHour()));
+                }
                 timeLabel.setLayoutY(actualY+45);
                 timeLabel.setLayoutX(284);
                 pane.getChildren().add(timeLabel);
@@ -160,7 +166,9 @@ public class SearchResultPanelController {
                     timeLabel.setText(Integer.toString(plan.getEndTime().getHourOfDay()) + ":" +"0"+Integer.toString(plan.getEndTime().getMinuteOfHour()));
 
                 }
-                timeLabel.setText(Integer.toString(plan.getEndTime().getHourOfDay()) + ":" + Integer.toString(plan.getEndTime().getMinuteOfHour()));
+                else {
+                    timeLabel.setText(Integer.toString(plan.getEndTime().getHourOfDay()) + ":" + Integer.toString(plan.getEndTime().getMinuteOfHour()));
+                }
                 timeLabel.setLayoutY(actualY+105);
                 timeLabel.setLayoutX(284);
                 pane.getChildren().add(timeLabel);
@@ -200,7 +208,6 @@ public class SearchResultPanelController {
 
 
             }
-
 
         }
         scrollPane.setFitToWidth(true);

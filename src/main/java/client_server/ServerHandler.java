@@ -3,7 +3,6 @@ package client_server;
 import client_server.data.DijkstraAlgorithm;
 import client_server.data.Plan;
 import controllers.data.BusStopShedule;
-import data.BusStop;
 import data.Connection;
 import data.Graph;
 import org.hibernate.Session;
@@ -13,10 +12,7 @@ import org.joda.time.DateTime;
 import org.joda.time.Minutes;
 
 import javax.persistence.criteria.CriteriaQuery;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -32,12 +28,8 @@ class ServerHandler extends Thread {
     private static Session session;
     private ObjectOutputStream outToClient;
     private ObjectInputStream inFromClient;
-    private BusStop searchedBusStop;
-    private Plan plan;
-    private Graph graph;
 
 
-    // Constructor
     public ServerHandler(Socket s, DataInputStream dis, DataOutputStream dos, String serverName) throws Exception {
         this.s = s;
         this.dis = dis;
@@ -45,10 +37,11 @@ class ServerHandler extends Thread {
         this.serverName = serverName;
         this.outToClient = new ObjectOutputStream(s.getOutputStream());
         this.inFromClient = new ObjectInputStream(s.getInputStream());
+
     }
 
     @Override
-    public void run() {
+    public void run()  {
         factory = new Configuration().configure().buildSessionFactory();
         while (true) {
             try {
@@ -57,11 +50,15 @@ class ServerHandler extends Thread {
 
 
             } catch (Exception e) {
-                e.printStackTrace();
-                if (serverName.equals("SERVER_ONE")) {
-                    ServerOne.SERVERONE_INSTANCE.getSockets().remove(s.getPort());
-                } else ServerTwo.SERVERTWO_INSTANCE.getSockets().remove(s.getPort());
-                return;
+                try {
+                    s.close();
+                    dis.close();
+                    dos.close();
+                    outToClient.close();
+                    inFromClient.close();
+                    return;
+                }catch (IOException ex){
+                }
             }
         }
 
@@ -123,11 +120,15 @@ class ServerHandler extends Thread {
 
                 if (path != null) {
                     for (Plan p : path) {
+                        System.out.println(p);
                         if(p.getWalkdistance()==0){
                             onlyWalk=false;
                         }
                         i++;
                         if (p.getWalkdistance() > 0) {
+                            if(i>1&&plan.getWalkdistance()==0){
+                                generalPlan.add(plan);
+                            }
                             plan = new Plan();
                             plan.setStartStation(p.getStartStation());
                             plan.setEndStation(p.getEndStation());
@@ -147,7 +148,8 @@ class ServerHandler extends Thread {
                             plan.setWalkdistance(p.getWalkdistance());
                             time = p.getTime();
                             stationInRow++;
-                            continue;
+                            System.out.println(path.size());
+                            System.out.println(i);
 
                         } else if (actualLine.equals(p.getLine())) {
                             time += p.getTime();
@@ -172,7 +174,7 @@ class ServerHandler extends Thread {
                             time = p.getTime();
                         }
 
-                        if (i == path.size() - 1) {
+                        if (i == path.size()) {
                             plan.setCountofStation(stationInRow - 2);
                             plan.setEndTime(p.getEndTime());
                             plan.setTime(time);
@@ -182,7 +184,7 @@ class ServerHandler extends Thread {
 
                     }
                     System.out.println("--------------------");
-                    for (Plan p : generalPlan) {                                                 //do usunięcia potem
+                    for (Plan p : generalPlan) {
                         System.out.println(p);
                     }
                 }
@@ -198,72 +200,19 @@ class ServerHandler extends Thread {
         }
     }
 
+    public static SessionFactory getFactory() {
+        return factory;
+    }
 
-//    private void searchMethod(ClientData clientData){
-//
-//        boolean directionDefault = true;
-//        if(clientData.getActualTime()){
-//           clientData.setSearchingTime(new DateTime());
-//        }
-//        if(clientData.getEndStation().getBusStopNumber()<clientData.getStartStation().getBusStopNumber()){
-//            directionDefault = false;
-//        }
-//
-//
-//
-//        if(clientData.getWayOfTravel().equals(WayOfTravel.fastest)){
-//            if(clientData.getMaxCountofChange()==0){
-//                for(Line lineS : clientData.getStartStation().getListOfLine()){
-//                    for(Line lineE : clientData.getEndStation().getListOfLine()){
-//                        if (lineE.getLineNumber().equals(lineS.getLineNumber())){
-//                            if(directionDefault&&lineE.getLineNumber().contains("a")){
-//                                findEarliestConnection(clientData.getStartStation(), clientData, lineE);
-//                                clientData.getPlanList().add(new Plan(lineE,))
-//                            }
-//
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//
-//    }
-//
-//
-//    private int findEarliestConnection(BusStop busStop, ClientData clientData, Line lineStart ){
-//        int minTime=5000;
-//        DateTime start;
-//        DateTime end;
-//        int time;
-//        int relationNumber;
-//
-//        for(Line line : busStop.getListOfLine())
-//        {
-//            if(lineStart.getLineNumber().equals(line.getLineNumber())){
-//            for(SingleInformation information : line.getPlan()){
-//                if(Minutes.minutesBetween(clientData.getSearchingTime(),information.getDate()).getMinutes()<minTime)
-//                {
-//                    minTime=Minutes.minutesBetween(clientData.getSearchingTime(),information.getDate()).getMinutes();
-//                    start = information.getDate();
-//                    relationNumber = information.getRelationNumber();
-//
-//                    for(Line line2 :clientData.getEndStation().getListOfLine()){
-//                        if(lineStart.getLineNumber().equals(line2.getLineNumber())){
-//                            for(SingleInformation information1 : line.getPlan()){
-//                                if(information1.getRelationNumber()==relationNumber){
-//                                    end = information1.getDate();
-//                                    time = Minutes.minutesBetween(start,information1.getDate()).getMinutes();
-//                                }
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//        }
-//
-//return minTime;
-//    }
+    public static void setFactory(SessionFactory factory) {
+        ServerHandler.factory = factory;
+    }
 
+    public static Session getSession() {
+        return session;
+    }
 
+    public static void setSession(Session session) {
+        ServerHandler.session = session;
+    }
 }

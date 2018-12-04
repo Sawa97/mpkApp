@@ -4,10 +4,8 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.HashMap;
 
 public class ServerTwo {
-    private static  HashMap<Integer, Socket> sockets = new HashMap<Integer, Socket>();
     public static ServerTwo SERVERTWO_INSTANCE = new ServerTwo();
     private final String SERVER_NAME = "SERVER ONE";
 
@@ -21,7 +19,6 @@ public class ServerTwo {
             try {
                 clientSocket = s1.accept();
 
-                SERVERTWO_INSTANCE.getSockets().put(clientSocket.getPort(),clientSocket);
 
                 System.out.println("A new client is connected : " + clientSocket);
 
@@ -45,15 +42,5 @@ public class ServerTwo {
     private ServerTwo() {
     }
 
-    public HashMap<Integer, Socket> getSockets() {
-        return sockets;
-    }
 
-    public int getSocketsCount(){
-        return sockets.size();
-    }
-
-    public static void setSockets(HashMap<Integer, Socket> sockets) {
-        ServerTwo.sockets = sockets;
-    }
 }
