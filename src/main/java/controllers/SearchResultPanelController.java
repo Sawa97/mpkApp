@@ -1,7 +1,6 @@
 package controllers;
 
 import client_server.Client;
-import client_server.data.Plan;
 import data.Line;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -59,10 +58,11 @@ public class SearchResultPanelController {
             informLabel.setLayoutX(20);
             pane.getChildren().add(informLabel);
         }
-        for (Plan plan : Client.CLIENT_INSTANCE.getPlanList()) {
-            if (plan.getWalkdistance() == 0) {
+        for(int i=0; i<Client.CLIENT_INSTANCE.getPlanList().size(); i++)
+        {
+            if (Client.CLIENT_INSTANCE.getPlanList().get(i).getWalkdistance() == 0) {
                 for (Line line : Client.CLIENT_INSTANCE.getGraph().getLineList()) {
-                    if (line.getLineNumber().equals(plan.getLine())) {
+                    if (line.getLineNumber().equals(Client.CLIENT_INSTANCE.getPlanList().get(i).getLine())) {
                         actualLine = line;
                     }
                 }
@@ -74,7 +74,7 @@ public class SearchResultPanelController {
 
                 Label timeToLeave = new Label();
                 timeToLeave.getStyleClass().add("busStopLabel");
-                timeToLeave.setText(String.valueOf(plan.getWaitingTimeforBus())+" min       ");
+                timeToLeave.setText(String.valueOf(Client.CLIENT_INSTANCE.getPlanList().get(i).getWaitingTimeforBus())+" min       ");
                 timeToLeave.setLayoutY(4);
                 timeToLeave.setLayoutX(280);
                 leavePane.getChildren().add(timeToLeave);
@@ -95,7 +95,7 @@ public class SearchResultPanelController {
 
                 Label topLabel = new Label();
                 topLabel.getStyleClass().add("destinationLabel");
-                topLabel.setText(plan.getLine() + " " + actualLine.getEndStation());
+                topLabel.setText(Client.CLIENT_INSTANCE.getPlanList().get(i).getLine() + " " + actualLine.getEndStation());
                 topLabel.setLayoutY(actualY+8);
                 topLabel.setLayoutX(42);
                 pane.getChildren().add(topLabel);
@@ -104,7 +104,7 @@ public class SearchResultPanelController {
                 minuteLabel.getStyleClass().add("timeToLeaveLabel");
                 minuteLabel.setLayoutX(280);
                 minuteLabel.setLayoutY(actualY+12);
-                minuteLabel.setText(String.valueOf(plan.getTime()) + " min");
+                minuteLabel.setText(String.valueOf(Client.CLIENT_INSTANCE.getPlanList().get(i).getTime()) + " min");
                 pane.getChildren().add(minuteLabel);
 
 
@@ -118,19 +118,19 @@ public class SearchResultPanelController {
 
                 Label busStopLabel = new Label();
                 busStopLabel.getStyleClass().add("busStopLabel");
-                busStopLabel.setText(plan.getStartStation().getBusStopName());
+                busStopLabel.setText(Client.CLIENT_INSTANCE.getPlanList().get(i).getStartStation().getBusStopName());
                 busStopLabel.setLayoutY(actualY+45);
                 busStopLabel.setLayoutX(42);
                 pane.getChildren().add(busStopLabel);
 
                 Label timeLabel = new Label();
                 busStopLabel.getStyleClass().add("busStopLabel");
-                if(plan.getStartTime().getMinuteOfHour()<10){
-                    timeLabel.setText(Integer.toString(plan.getStartTime().getHourOfDay()) + ":" +"0"+Integer.toString(plan.getStartTime().getMinuteOfHour()));
+                if(Client.CLIENT_INSTANCE.getPlanList().get(i).getStartTime().getMinuteOfHour()<10){
+                    timeLabel.setText(Integer.toString(Client.CLIENT_INSTANCE.getPlanList().get(i).getStartTime().getHourOfDay()) + ":" +"0"+Integer.toString(Client.CLIENT_INSTANCE.getPlanList().get(i).getStartTime().getMinuteOfHour()));
 
                 }
                 else {
-                    timeLabel.setText(Integer.toString(plan.getStartTime().getHourOfDay()) + ":" + Integer.toString(plan.getStartTime().getMinuteOfHour()));
+                    timeLabel.setText(Integer.toString(Client.CLIENT_INSTANCE.getPlanList().get(i).getStartTime().getHourOfDay()) + ":" + Integer.toString(Client.CLIENT_INSTANCE.getPlanList().get(i).getStartTime().getMinuteOfHour()));
                 }
                 timeLabel.setLayoutY(actualY+45);
                 timeLabel.setLayoutX(284);
@@ -139,7 +139,7 @@ public class SearchResultPanelController {
 
                 Label restLabel = new Label();
                 restLabel.getStyleClass().add("timeToLeaveLabel");
-                restLabel.setText("Pozostałe przystanki(" + plan.getCountofStation() + ")");
+                restLabel.setText("Pozostałe przystanki(" + Client.CLIENT_INSTANCE.getPlanList().get(i).getCountofStation() + ")");
                 restLabel.setLayoutY(actualY+77);
                 restLabel.setLayoutX(42);
                 pane.getChildren().add(restLabel);
@@ -155,19 +155,19 @@ public class SearchResultPanelController {
 
                 busStopLabel = new Label();
                 busStopLabel.getStyleClass().add("busStopLabel");
-                busStopLabel.setText(plan.getEndStation().getBusStopName());
+                busStopLabel.setText(Client.CLIENT_INSTANCE.getPlanList().get(i).getEndStation().getBusStopName());
                 busStopLabel.setLayoutY(actualY+105);
                 busStopLabel.setLayoutX(42);
                 pane.getChildren().add(busStopLabel);
 
                 timeLabel = new Label();
                 busStopLabel.getStyleClass().add("busStopLabel");
-                if(plan.getEndTime().getMinuteOfHour()<10){
-                    timeLabel.setText(Integer.toString(plan.getEndTime().getHourOfDay()) + ":" +"0"+Integer.toString(plan.getEndTime().getMinuteOfHour()));
+                if(Client.CLIENT_INSTANCE.getPlanList().get(i).getEndTime().getMinuteOfHour()<10){
+                    timeLabel.setText(Integer.toString(Client.CLIENT_INSTANCE.getPlanList().get(i).getEndTime().getHourOfDay()) + ":" +"0"+Integer.toString(Client.CLIENT_INSTANCE.getPlanList().get(i).getEndTime().getMinuteOfHour()));
 
                 }
                 else {
-                    timeLabel.setText(Integer.toString(plan.getEndTime().getHourOfDay()) + ":" + Integer.toString(plan.getEndTime().getMinuteOfHour()));
+                    timeLabel.setText(Integer.toString(Client.CLIENT_INSTANCE.getPlanList().get(i).getEndTime().getHourOfDay()) + ":" + Integer.toString(Client.CLIENT_INSTANCE.getPlanList().get(i).getEndTime().getMinuteOfHour()));
                 }
                 timeLabel.setLayoutY(actualY+105);
                 timeLabel.setLayoutX(284);
@@ -196,7 +196,13 @@ public class SearchResultPanelController {
 
                 Label timeLabel = new Label();
                 timeLabel.getStyleClass().add("timeToLeaveLabel");
-                timeLabel.setText(plan.getWalkdistance() + "m(" + plan.getTime() + " min)  " + "                                                            ");
+                if(Client.CLIENT_INSTANCE.getPlanList().get(i+1).getWalkdistance()!=0){
+                    timeLabel.setText(Client.CLIENT_INSTANCE.getPlanList().get(i).getWalkdistance()+Client.CLIENT_INSTANCE.getPlanList().get(i+1).getWalkdistance() + "m(" + Client.CLIENT_INSTANCE.getPlanList().get(i).getTime() + " min)  " + "                                                            ");
+                    i++;
+                }
+                else {
+                    timeLabel.setText(Client.CLIENT_INSTANCE.getPlanList().get(i).getWalkdistance() + "m(" + Client.CLIENT_INSTANCE.getPlanList().get(i).getTime() + " min)  " + "                                                            ");
+                }
                 timeLabel.setLayoutY(7);
                 timeLabel.setLayoutX(50);
                 walkPane.getChildren().add(timeLabel);
